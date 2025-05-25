@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CollectionManagerApp.Views.AllCollectionListsPage"
+             Title="All Collections Lists Page">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Import collection list" 
+                     IconImageSource="{FontImage Glyph='📥', Color={StaticResource PrimaryDarkText}, Size='20'}" 
+                     Clicked="ImportCollectionBtn_Clicked"/>
+        <ToolbarItem Text="Add collection list" 
+                     IconImageSource="{FontImage Glyph='+', Color={StaticResource PrimaryDarkText}, Size='20'}" 
+                     Clicked="AddCollectionBtn_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <StackLayout Margin="100, 10, 100, 0">
+            <Label Text="All collection lists:" 
+                   HorizontalTextAlignment="Center" 
+                   FontSize="22" 
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource SecondaryDarkText}"/>
+            <CollectionView x:Name="CollectionListView"
+                            ItemsSource="{Binding CollectionLists}"
+                            SelectionMode="Single"
+                            SelectionChanged="CollectionListView_SelectionChanged">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout BackgroundColor="#5081D9" Padding="10">
+                            <Label Text="{Binding Name}" 
+                                   FontSize="16" 
+                                   TextColor="{StaticResource SecondaryDarkText}" 
+                                   FontAttributes="Bold"
+                                   CharacterSpacing="0.5"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

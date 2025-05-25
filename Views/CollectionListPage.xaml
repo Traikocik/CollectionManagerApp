@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CollectionManagerApp.Views.CollectionListPage"
+             Title="Collection List Page">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Export collection list" 
+                     IconImageSource="{FontImage Glyph='📤', Color={StaticResource PrimaryDarkText}, Size='20'}" 
+                     Clicked="ExportCollectionBtn_Clicked"/>
+        <ToolbarItem Text="Collection summary"
+                     IconImageSource="{FontImage Glyph='S', Color={StaticResource PrimaryDarkText}, Size='20'}"
+                     Clicked="SummaryBtn_Clicked"/>
+        <ToolbarItem Text="Add item"
+                     IconImageSource="{FontImage Glyph='+', Color={StaticResource PrimaryDarkText}, Size='20'}"
+                     Clicked="AddItemBtn_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <CollectionView x:Name="ItemListView"
+                    ItemsSource="{Binding Items}"
+                    SelectionMode="Single"
+                    SelectionChanged="ItemListView_SelectionChanged">
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="6"/>
+        </CollectionView.ItemsLayout>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <StackLayout MinimumHeightRequest="75"
+                             Orientation="Horizontal" 
+                             BackgroundColor="{Binding Condition, Converter={StaticResource ConditionToColorConverter}}" 
+                             Spacing="10">
+                    <Image x:Name="ItemImage"
+                           MaximumHeightRequest="120" 
+                           Source="{Binding ImagePath}"/>
+                    <Label VerticalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Name: "
+                                      FontSize="20"
+                                      TextColor="{StaticResource SecondaryDarkText}"/>
+                                <Span Text="{Binding Name}"
+                                      FontSize="20"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource SecondaryDarkText}"/>
+                                <Span Text=" Condition: "
+                                      FontSize="20"
+                                      TextColor="{StaticResource SecondaryDarkText}"/>
+                                <Span Text="{Binding Condition}" 
+                                      FontSize="20"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource SecondaryDarkText}"/>
+                                <Span Text=" Price: "
+                                      FontSize="20"
+                                      TextColor="{StaticResource SecondaryDarkText}"/>
+                                <Span Text="{Binding Price}"
+                                      FontSize="20"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource SecondaryDarkText}"/>
+                                <Span Text=" Rating: "
+                                      FontSize="20"
+                                      TextColor="{StaticResource SecondaryDarkText}"/>
+                                <Span Text="{Binding Rating}"
+                                      FontSize="20"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource SecondaryDarkText}"/>
+                                <Span Text="/10"
+                                      FontSize="20"
+                                      FontAttributes="Bold"
+                                      TextColor="{StaticResource SecondaryDarkText}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <ImageButton MinimumWidthRequest="75"
+                                 HorizontalOptions="EndAndExpand"
+                                 Source="{FontImage Glyph='X', Color={StaticResource PrimaryDarkText}, Size='30'}"
+                                 Clicked="DeleteItemBtn_Clicked"/>
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CollectionManagerApp.Views.ItemPage"
+             Title="New Item Page">
+    <ScrollView>
+        <StackLayout Padding="30, 0, 30, 0" Spacing="6">
+            <Label Text="Item name:" TextColor="{StaticResource SecondaryDarkText}"/>
+            <Entry x:Name="NameEntry" Placeholder="(e.g. Microwave)"/>
+            <Picker x:Name="ConditionPicker" Title="Item condition:" TitleColor="{StaticResource SecondaryDarkText}"/>
+            <Label Text="Item price:" TextColor="{StaticResource SecondaryDarkText}"/>
+            <Entry x:Name="PriceEntry" Keyboard="Numeric" Placeholder="(e.g. 9.99)"/>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding Source={x:Reference RatingSlider}, Path=Value, StringFormat='Item rating: {0:F0}'}"
+                              TextColor="{StaticResource SecondaryDarkText}"/>
+                        <Span Text="/10" TextColor="{StaticResource SecondaryDarkText}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Slider x:Name="RatingSlider"
+                    Minimum="1" Maximum="10" 
+                    ValueChanged="RatingSlider_ValueChanged" 
+                    MinimumTrackColor="{StaticResource PrimaryDarkText}"
+                    ThumbColor="#AD6000"/>
+            <Label Text="Item comment:" TextColor="{StaticResource SecondaryDarkText}"/>
+            <Entry x:Name="CommentEntry" Placeholder="(e.g. Scratches on side)"/>
+            <Label Text="Item image:" TextColor="{StaticResource SecondaryDarkText}"/>
+            <HorizontalStackLayout x:Name="ItemImageLayout" HorizontalOptions="Center" IsVisible="False">
+                <Image x:Name="ItemImage" MinimumHeightRequest="50" MaximumHeightRequest="250"/>
+                <ImageButton MinimumWidthRequest="50"
+                             MaximumHeightRequest="250"
+                             Source="{FontImage Glyph='X', Color={StaticResource PrimaryDarkText}, Size='40'}"
+                             Clicked="DeleteImageBtn_Clicked"/>
+            </HorizontalStackLayout>
+            <Button Text="Pick image" 
+                    Clicked="PickImageBtn_Clicked" 
+                    BackgroundColor="#CD9232" 
+                    TextColor="#201000" 
+                    FontSize="18"/>
+            <Button Text="Save" 
+                    Clicked="SaveBtn_Clicked" 
+                    BackgroundColor="#CD9232" 
+                    TextColor="#201000" 
+                    FontSize="18"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
