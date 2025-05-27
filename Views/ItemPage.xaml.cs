@@ -23,7 +23,7 @@ public partial class ItemPage : ContentPage
             NameEntry.Text = itemToEdit.Name;
             Title = itemToEdit.Name;
             ConditionPicker.SelectedItem = itemToEdit.Condition;
-            PriceEntry.Text = itemToEdit.Price.ToString();
+            PriceEntry.Text = itemToEdit.Price.ToString("0.00", System.Globalization.CultureInfo.CurrentCulture);
             RatingSlider.Value = itemToEdit.Rating;
             CommentEntry.Text = itemToEdit.Comment;
             if (!string.IsNullOrEmpty(itemToEdit.ImagePath))
@@ -53,12 +53,13 @@ public partial class ItemPage : ContentPage
 
     private async void SaveBtn_Clicked(object sender, EventArgs e)
     {
-        string name = NameEntry.Text.Trim();
+        string name = NameEntry.Text;
         if (string.IsNullOrEmpty(name))
         {
             await DisplayAlert("ERROR", "Item's name is wrong!", "OK");
             return;
         }
+        name = name.Trim();
         if (!isEditing && parentCollectionList.Items.Any(i => i.Name.Equals(name, StringComparison.OrdinalIgnoreCase)))
         {
             bool confirm = await DisplayAlert("WARNING", $"Item with name: '{name}' already exists.\nDo you still want to save this item?", "Yes", "No");
@@ -68,14 +69,15 @@ public partial class ItemPage : ContentPage
 
         string condition = (string)ConditionPicker.SelectedItem;
 
-        if (!double.TryParse(PriceEntry.Text, out double price))
+        if (string.IsNullOrEmpty(PriceEntry.Text) || !decimal.TryParse(PriceEntry.Text.Replace(',', '.'), System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out decimal price))
         {
             await DisplayAlert("ERROR", "Item's price is wrong!", "OK");
             return;
         }
+        price = Math.Round(price, 2, MidpointRounding.AwayFromZero);
 
         int rating = (int)RatingSlider.Value;
-        string comment = CommentEntry.Text ?? "";
+        string comment = (CommentEntry.Text ?? "").Trim();
 
         if (newImageFileResult != null)
         {
@@ -83,23 +85,36 @@ public partial class ItemPage : ContentPage
             if (!Directory.Exists(ImagesFolder))
                 Directory.CreateDirectory(ImagesFolder);
 
-            imagePath = Path.Combine(ImagesFolder, newImageFileResult.FileName);
+            if (isEditing && BindingContext is Item item && !string.IsNullOrEmpty(item.ImagePath))
+            {
+                imagePath = item.ImagePath;
+            }
+            else
+            {
+                int imageCount = parentCollectionList.Items.Count(i => !string.IsNullOrEmpty(i.ImagePath));
+                string imageExtension = Path.GetExtension(newImageFileResult.FileName);
+                string newImageFileName = $"{parentCollectionList.Name}_{imageCount + 1}{imageExtension}";
+                imagePath = Path.Combine(ImagesFolder, newImageFileName);
+            }
             using Stream stream = await newImageFileResult.OpenReadAsync();
             using FileStream fileStream = File.Create(imagePath);
             await stream.CopyToAsync(fileStream);
 
-            if (isEditing)
-            {
-                string oldImagePath = ((Item)BindingContext).ImagePath;
-                if (!string.IsNullOrEmpty(oldImagePath) && File.Exists(oldImagePath))
-                    File.Delete(oldImagePath);
-            }
+            //if (isEditing)
+            //{
+            //    string oldImagePath = ((Item)BindingContext).ImagePath;
+            //    if (!string.IsNullOrEmpty(oldImagePath) && File.Exists(oldImagePath))
+            //        File.Delete(oldImagePath);
+            //}
 
             ItemImageLayout.IsVisible = true;
             ItemImage.Source = ImageSource.FromFile(imagePath);
         }
-        else if (BindingContext is Item { ImagePath: string originalImagePath } && !string.IsNullOrEmpty(originalImagePath) && File.Exists(originalImagePath))
+        else if (BindingContext is Item { ImagePath: string originalImagePath } && !string.IsNullOrEmpty(originalImagePath) && File.Exists(originalImagePath) && imagePath != originalImagePath)
+        {
             File.Delete(originalImagePath);
+            parentCollectionList.UpdateImageNumbersAfterItemDeletion((Item)BindingContext);
+        }   
 
         if (isEditing)
         {

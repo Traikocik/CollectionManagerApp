@@ -10,7 +10,7 @@ namespace CollectionManagerApp.Models
     {
         public string Name { get; set; }
         public string Condition { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public int Rating { get; set; }
         public string Comment { get; set; }
         public string ImagePath { get; set; }

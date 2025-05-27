@@ -25,7 +25,7 @@
             <DataTemplate>
                 <StackLayout MinimumHeightRequest="75"
                              Orientation="Horizontal" 
-                             BackgroundColor="{Binding Condition, Converter={StaticResource ConditionToColorConverter}}" 
+                             Loaded="ItemLayout_Loaded"
                              Spacing="10">
                     <Image x:Name="ItemImage"
                            MaximumHeightRequest="120" 
@@ -50,7 +50,7 @@
                                 <Span Text=" Price: "
                                       FontSize="20"
                                       TextColor="{StaticResource SecondaryDarkText}"/>
-                                <Span Text="{Binding Price}"
+                                <Span Text="{Binding Price, StringFormat='{0:0.00}'}"
                                       FontSize="20"
                                       FontAttributes="Bold"
                                       TextColor="{StaticResource SecondaryDarkText}"/>

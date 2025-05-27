@@ -60,7 +60,7 @@ namespace CollectionManagerApp.Models
                         {
                             Name = lines[i + 1],
                             Condition = lines[i + 2],
-                            Price = double.Parse(lines[i + 3]),
+                            Price = decimal.Parse(lines[i + 3]),
                             Rating = int.Parse(lines[i + 4]),
                             Comment = lines[i + 5].Replace("\\n", Environment.NewLine),
                             ImagePath = lines[i + 6] // string.IsNullOrEmpty(lines[i + 6]) ? "" : lines[i + 6]
@@ -95,7 +95,7 @@ namespace CollectionManagerApp.Models
                 writer.WriteLine(item.Condition);
                 writer.WriteLine(item.Price);
                 writer.WriteLine(item.Rating);
-                writer.WriteLine(item.Comment.Replace(Environment.NewLine, "\\n")); //Naprawić
+                writer.WriteLine(item.Comment);
                 writer.WriteLine(item.ImagePath ?? "");
             }
         }
@@ -120,8 +120,8 @@ namespace CollectionManagerApp.Models
                 writer.WriteLine(item.Condition);
                 writer.WriteLine(item.Price);
                 writer.WriteLine(item.Rating);
-                writer.WriteLine(item.Comment.Replace(Environment.NewLine, "\\n")); //Zmienić
-                writer.WriteLine(!string.IsNullOrEmpty(item.ImagePath) ? Path.Combine("Images", Path.GetFileName(item.ImagePath)) : ""); // Można zmienić
+                writer.WriteLine(item.Comment);
+                writer.WriteLine(!string.IsNullOrEmpty(item.ImagePath) ? Path.Combine("Images", Path.GetFileName(item.ImagePath)) : "");
             }
             foreach (Item item in collection.Items)
             {

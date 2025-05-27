@@ -6,10 +6,10 @@
     <ScrollView>
         <StackLayout Padding="30, 0, 30, 0" Spacing="6">
             <Label Text="Item name:" TextColor="{StaticResource SecondaryDarkText}"/>
-            <Entry x:Name="NameEntry" Placeholder="(e.g. Microwave)"/>
+            <Entry x:Name="NameEntry" Placeholder="(e.g. Microwave)" MaxLength="255"/>
             <Picker x:Name="ConditionPicker" Title="Item condition:" TitleColor="{StaticResource SecondaryDarkText}"/>
             <Label Text="Item price:" TextColor="{StaticResource SecondaryDarkText}"/>
-            <Entry x:Name="PriceEntry" Keyboard="Numeric" Placeholder="(e.g. 9.99)"/>
+            <Entry x:Name="PriceEntry" Keyboard="Numeric" Placeholder="(e.g. 9.99)" MaxLength="29"/>
             <Label>
                 <Label.FormattedText>
                     <FormattedString>
@@ -25,7 +25,7 @@
                     MinimumTrackColor="{StaticResource PrimaryDarkText}"
                     ThumbColor="#AD6000"/>
             <Label Text="Item comment:" TextColor="{StaticResource SecondaryDarkText}"/>
-            <Entry x:Name="CommentEntry" Placeholder="(e.g. Scratches on side)"/>
+            <Entry x:Name="CommentEntry" Placeholder="(e.g. Scratches on side)" MaxLength="255"/>
             <Label Text="Item image:" TextColor="{StaticResource SecondaryDarkText}"/>
             <HorizontalStackLayout x:Name="ItemImageLayout" HorizontalOptions="Center" IsVisible="False">
                 <Image x:Name="ItemImage" MinimumHeightRequest="50" MaximumHeightRequest="250"/>

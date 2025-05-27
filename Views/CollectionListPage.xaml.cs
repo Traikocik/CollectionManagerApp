@@ -47,7 +47,10 @@ public partial class CollectionListPage : ContentPage
         {
             ((CollectionList)BindingContext).Items.Remove(item);
             if (!string.IsNullOrEmpty(item.ImagePath) && File.Exists(item.ImagePath))
+            {
                 File.Delete(item.ImagePath);
+                ((CollectionList)BindingContext).UpdateImageNumbersAfterItemDeletion(item);
+            }
             AllCollectionLists.SaveCollectionListToFile((CollectionList)BindingContext);
         }
     }
@@ -68,5 +71,13 @@ public partial class CollectionListPage : ContentPage
             await DisplayAlert("EXPORTED", $"Exported to:\n{path}", "OK");
         else
             await DisplayAlert("ERROR", $"Something went wrong during export", "OK");
+    }
+
+    private void ItemLayout_Loaded(object sender, EventArgs e)
+    {
+        if (sender is StackLayout itemLayout)
+        {
+            itemLayout.BackgroundColor = ((Item)itemLayout.BindingContext).Condition == "sold" ? Color.FromHex("#60656E") : Color.FromHex("#5081D9");
+        }
     }
 }
