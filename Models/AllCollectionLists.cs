@@ -63,7 +63,7 @@ namespace CollectionManagerApp.Models
                             Price = decimal.Parse(lines[i + 3]),
                             Rating = int.Parse(lines[i + 4]),
                             Comment = lines[i + 5].Replace("\\n", Environment.NewLine),
-                            ImagePath = lines[i + 6] // string.IsNullOrEmpty(lines[i + 6]) ? "" : lines[i + 6]
+                            ImagePath = lines[i + 6]
                         };
 
                         collection.Items.Add(item);

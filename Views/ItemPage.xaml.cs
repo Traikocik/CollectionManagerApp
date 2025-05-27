@@ -100,13 +100,6 @@ public partial class ItemPage : ContentPage
             using FileStream fileStream = File.Create(imagePath);
             await stream.CopyToAsync(fileStream);
 
-            //if (isEditing)
-            //{
-            //    string oldImagePath = ((Item)BindingContext).ImagePath;
-            //    if (!string.IsNullOrEmpty(oldImagePath) && File.Exists(oldImagePath))
-            //        File.Delete(oldImagePath);
-            //}
-
             ItemImageLayout.IsVisible = true;
             ItemImage.Source = ImageSource.FromFile(imagePath);
         }
